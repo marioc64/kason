@@ -20,7 +20,8 @@ All auxiliary storage is supplied by the caller.
 - No heap allocation
 
 [Quick start](#quick-start) · [API guide](docs/api-guide.md) ·
-[Tutorial](docs/tutorial.md) · [Examples](examples)
+[Tutorial](docs/tutorial.md) · [Compatibility](docs/compatibility.md) ·
+[Examples](examples)
 
 ## Choose an API
 
@@ -158,6 +159,7 @@ chunk boundaries and nested-container tracking.
 | --- | --- |
 | [`docs/tutorial.md`](docs/tutorial.md) | Guided regular, stream, and schema examples |
 | [`docs/api-guide.md`](docs/api-guide.md) | API selection, semantics, ownership, errors, and thread safety |
+| [`docs/compatibility.md`](docs/compatibility.md) | Language, versioning, and compatibility policy |
 | [`examples/regular.c`](examples/regular.c) | Complete-buffer parsing |
 | [`examples/stream.c`](examples/stream.c) | Chunked input |
 | [`examples/schema.c`](examples/schema.c) | Basic struct decoding and encoding |
@@ -197,6 +199,9 @@ cmake --build build-bench
 ```
 
 ## Development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the complete contributor workflow and
+[CHANGELOG.md](CHANGELOG.md) for user-visible changes.
 
 Additional build options include:
 

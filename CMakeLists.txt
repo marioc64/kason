@@ -29,34 +29,6 @@ if(KaSON_BUILD_DOCS)
     find_package(Doxygen REQUIRED)
 
     set(KaSON_DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/docs")
-    set(KaSON_DOXYGEN_README "${CMAKE_CURRENT_BINARY_DIR}/README.doxygen.md")
-    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
-        "${CMAKE_CURRENT_SOURCE_DIR}/README.md"
-    )
-
-    # GitHub uses <picture> to select a light or dark logo, but Doxygen treats
-    # <picture> and <source> as unsupported HTML. Keep the themed source README
-    # and give Doxygen a generated copy containing its supported fallback image.
-    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/README.md" KaSON_DOXYGEN_README_CONTENT)
-    set(KaSON_README_THEMED_LOGO [=[  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/kason-logo-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="docs/assets/kason-logo.png">
-    <img src="docs/assets/kason-logo.png" alt="KaSON logo" width="640">
-  </picture>]=])
-    set(KaSON_README_DOXYGEN_LOGO
-        [=[  <img src="docs/assets/kason-logo.png" alt="KaSON logo" width="640">]=]
-    )
-    string(FIND "${KaSON_DOXYGEN_README_CONTENT}"
-        "${KaSON_README_THEMED_LOGO}" KaSON_README_LOGO_POSITION
-    )
-    if(KaSON_README_LOGO_POSITION EQUAL -1)
-        message(FATAL_ERROR "Could not find the themed logo block in README.md")
-    endif()
-    string(REPLACE "${KaSON_README_THEMED_LOGO}" "${KaSON_README_DOXYGEN_LOGO}"
-        KaSON_DOXYGEN_README_CONTENT "${KaSON_DOXYGEN_README_CONTENT}"
-    )
-    file(WRITE "${KaSON_DOXYGEN_README}" "${KaSON_DOXYGEN_README_CONTENT}")
-
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in"
         "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
@@ -65,11 +37,6 @@ if(KaSON_BUILD_DOCS)
 
     add_custom_target(docs
         COMMAND Doxygen::doxygen "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
-        COMMAND "${CMAKE_COMMAND}" -E make_directory
-            "${KaSON_DOXYGEN_OUTPUT_DIRECTORY}/html/docs/assets"
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different
-            "${CMAKE_CURRENT_SOURCE_DIR}/docs/assets/kason-logo.png"
-            "${KaSON_DOXYGEN_OUTPUT_DIRECTORY}/html/docs/assets/kason-logo.png"
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         COMMENT "Generating KaSON API documentation"
         VERBATIM
@@ -172,8 +139,27 @@ install(FILES
 install(FILES LICENSE README.md
     DESTINATION "${CMAKE_INSTALL_DOCDIR}"
 )
-install(FILES docs/api-guide.md
+install(FILES
+    docs/index.md
+    docs/api-guide.md
+    docs/tutorial.md
+    docs/compatibility.md
     DESTINATION "${CMAKE_INSTALL_DOCDIR}/docs"
+)
+install(FILES
+    docs/assets/kason-logo.png
+    docs/assets/kason-logo-dark.png
+    DESTINATION "${CMAKE_INSTALL_DOCDIR}/docs/assets"
+)
+install(FILES
+    examples/regular.c
+    examples/stream.c
+    examples/schema.c
+    examples/schema_config.c
+    DESTINATION "${CMAKE_INSTALL_DOCDIR}/examples"
+)
+install(FILES CHANGELOG.md CONTRIBUTING.md
+    DESTINATION "${CMAKE_INSTALL_DOCDIR}"
 )
 
 if(BUILD_TESTING AND KaSON_BUILD_TESTS)

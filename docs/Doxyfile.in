@@ -7,19 +7,22 @@ CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = YES
 OUTPUT_LANGUAGE        = English
 
-INPUT                  = "@KaSON_DOXYGEN_README@" \
+INPUT                  = "@CMAKE_CURRENT_SOURCE_DIR@/docs/index.md" \
                          "@CMAKE_CURRENT_SOURCE_DIR@/docs/api-guide.md" \
+                         "@CMAKE_CURRENT_SOURCE_DIR@/docs/tutorial.md" \
+                         "@CMAKE_CURRENT_SOURCE_DIR@/docs/compatibility.md" \
+                         "@CMAKE_CURRENT_SOURCE_DIR@/CHANGELOG.md" \
                          "@CMAKE_CURRENT_SOURCE_DIR@/kason.h" \
                          "@CMAKE_CURRENT_SOURCE_DIR@/kason_schema.h"
 FILE_PATTERNS          = *.h *.md
 RECURSIVE              = NO
-USE_MDFILE_AS_MAINPAGE = "@KaSON_DOXYGEN_README@"
+USE_MDFILE_AS_MAINPAGE = "@CMAKE_CURRENT_SOURCE_DIR@/docs/index.md"
 EXCLUDE_PATTERNS       = */build/* */build-*/*
 
-EXTRACT_ALL            = YES
+EXTRACT_ALL            = NO
 EXTRACT_STATIC         = NO
-HIDE_UNDOC_MEMBERS     = NO
-HIDE_UNDOC_CLASSES     = NO
+HIDE_UNDOC_MEMBERS     = YES
+HIDE_UNDOC_CLASSES     = YES
 JAVADOC_AUTOBRIEF      = YES
 MARKDOWN_SUPPORT       = YES
 AUTOLINK_SUPPORT       = YES

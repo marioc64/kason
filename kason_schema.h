@@ -17,6 +17,39 @@ extern "C" {
  * all caller-owned. Initialize child schemas before their parents.
  */
 
+/** @defgroup kason_schema_results Schema results and types
+ * @brief Result codes, field kinds, flags, and error details.
+ */
+/** @defgroup kason_schema_definition Schema definition
+ * @brief Macros and structures that map JSON fields to fixed-layout C objects.
+ *
+ * String members are fixed arrays of char, uint16_t, or uint32_t and their
+ * capacity includes the zero terminator. Array fields use fixed member arrays
+ * plus a size_t count member. Key and string-default arguments must be literals
+ * or arrays because the macros derive their sizes with sizeof. String and
+ * structure defaults are retained by reference and must outlive every schema
+ * operation. Nested structure fields reference a child schema initialized
+ * before its parent.
+ *
+ * @code
+ * static const kason_schema_field fields[] = {
+ *     KaSON_FIELD_STRING(config, name, "name", KaSON_REQUIRED),
+ *     KaSON_FIELD_U32(config, port, "port", KaSON_DEFAULT_U32(1883))
+ * };
+ * KaSON_SCHEMA_DEFINE(config_schema, config, fields, 4);
+ * @endcode
+ */
+/** @defgroup kason_schema_unpack Schema unpacking
+ * @brief Initialize schemas and decode JSON objects into C structures.
+ */
+/** @defgroup kason_writers JSON writers
+ * @brief Encode schema-backed structures to buffers, callbacks, or counters.
+ */
+
+/** @addtogroup kason_schema_results
+ * @{
+ */
+
 /** @def KaSON_SCHEMA_MAX_FIELDS @brief Maximum number of fields in one schema. */
 /** @def KaSON_SCHEMA_SUCCESS @brief Schema operation succeeded. */
 /** @def KaSON_SCHEMA_ERROR @brief Generic schema error. */
@@ -50,7 +83,11 @@ extern "C" {
 /** @def KaSON_WRITER_MODE_BUFFER @brief Writer targets a fixed buffer. */
 /** @def KaSON_WRITER_MODE_CALLBACK @brief Writer targets an output callback. */
 /** @def KaSON_WRITER_MODE_COUNTER @brief Writer only counts encoded bytes. */
+/** @} */
 
+/** @addtogroup kason_schema_definition
+ * @{
+ */
 /** @def KaSON_REQUIRED @brief Policy requiring a field. */
 /** @def KaSON_DEFAULT_BOOL @brief Boolean default policy. */
 /** @def KaSON_DEFAULT_INT @brief `int` default policy. */
@@ -58,10 +95,10 @@ extern "C" {
 /** @def KaSON_DEFAULT_U32 @brief `uint32_t` default policy. */
 /** @def KaSON_DEFAULT_U64 @brief `uint64_t` default policy. */
 /** @def KaSON_DEFAULT_DOUBLE @brief `double` default policy. */
-/** @def KaSON_DEFAULT_STRING @brief UTF-8 string default policy; argument must be an array or literal. */
-/** @def KaSON_DEFAULT_STRING_U16 @brief UTF-16 array default policy. */
-/** @def KaSON_DEFAULT_STRING_U32 @brief UTF-32 array default policy. */
-/** @def KaSON_DEFAULT_STRUCT @brief Nested-structure default policy. */
+/** @def KaSON_DEFAULT_STRING @brief UTF-8 default retained by reference; argument must be an array or literal. */
+/** @def KaSON_DEFAULT_STRING_U16 @brief UTF-16 default retained by reference; argument must be an array. */
+/** @def KaSON_DEFAULT_STRING_U32 @brief UTF-32 default retained by reference; argument must be an array. */
+/** @def KaSON_DEFAULT_STRUCT @brief Nested-structure default retained by reference. */
 /** @def KaSON_DEFAULT_EMPTY_ARRAY @brief Empty-array default policy. */
 /** @def KaSON_FIELD_BOOL @brief Declare a scalar boolean field. */
 /** @def KaSON_FIELD_INT @brief Declare a scalar `int` field. */
@@ -75,15 +112,16 @@ extern "C" {
 /** @def KaSON_FIELD_STRUCT @brief Declare a nested-structure field. */
 /** @def KaSON_FIELD_BOOL_ARRAY @brief Declare a fixed boolean array with a `size_t` count member. */
 /** @def KaSON_FIELD_INT_ARRAY @brief Declare a fixed `int` array with a `size_t` count member. */
-/** @def KaSON_FIELD_INT64_ARRAY @brief Declare a fixed `int64_t` array. */
-/** @def KaSON_FIELD_U32_ARRAY @brief Declare a fixed `uint32_t` array. */
-/** @def KaSON_FIELD_U64_ARRAY @brief Declare a fixed `uint64_t` array. */
-/** @def KaSON_FIELD_DOUBLE_ARRAY @brief Declare a fixed `double` array. */
-/** @def KaSON_FIELD_STRING_ARRAY @brief Declare an array of fixed UTF-8 strings. */
-/** @def KaSON_FIELD_STRING_U16_ARRAY @brief Declare an array of fixed UTF-16 strings. */
-/** @def KaSON_FIELD_STRING_U32_ARRAY @brief Declare an array of fixed UTF-32 strings. */
-/** @def KaSON_FIELD_STRUCT_ARRAY @brief Declare an array of nested structures. */
+/** @def KaSON_FIELD_INT64_ARRAY @brief Declare a fixed `int64_t` array with a `size_t` count member. */
+/** @def KaSON_FIELD_U32_ARRAY @brief Declare a fixed `uint32_t` array with a `size_t` count member. */
+/** @def KaSON_FIELD_U64_ARRAY @brief Declare a fixed `uint64_t` array with a `size_t` count member. */
+/** @def KaSON_FIELD_DOUBLE_ARRAY @brief Declare a fixed `double` array with a `size_t` count member. */
+/** @def KaSON_FIELD_STRING_ARRAY @brief Declare fixed UTF-8 string arrays with a `size_t` count member. */
+/** @def KaSON_FIELD_STRING_U16_ARRAY @brief Declare fixed UTF-16 string arrays with a `size_t` count member. */
+/** @def KaSON_FIELD_STRING_U32_ARRAY @brief Declare fixed UTF-32 string arrays with a `size_t` count member. */
+/** @def KaSON_FIELD_STRUCT_ARRAY @brief Declare fixed nested-structure arrays with a `size_t` count member. */
 /** @def KaSON_SCHEMA_DEFINE @brief Define schema storage and a mutable kason_schema object. */
+/** @} */
 
 /** @internal Implementation macro used by public policy macros. */
 /** @def KaSON_SCHEMA_POLICY_INITIALIZER_ */
@@ -140,7 +178,9 @@ extern "C" {
 
 struct s_kason_schema;
 
-/** Required/default policy stored in a field descriptor. */
+/** Required/default policy stored in a field descriptor.
+ * @ingroup kason_schema_definition
+ */
 typedef struct s_kason_schema_policy {
 	unsigned flags;          /**< KaSON_SCHEMA_POLICY_* bit set. */
 	int64_t signed_value;    /**< Signed-integer default storage. */
@@ -150,7 +190,9 @@ typedef struct s_kason_schema_policy {
 	size_t value_size;       /**< Size of @ref pointer_value data. */
 } kason_schema_policy;
 
-/** Mapping between one JSON key and one C structure member. */
+/** Mapping between one JSON key and one C structure member.
+ * @ingroup kason_schema_definition
+ */
 typedef struct s_kason_schema_field {
 	const char* json_key; /**< Decoded UTF-8 key, normally a string literal. */
 	int key_length;       /**< Key length in bytes. */
@@ -166,7 +208,9 @@ typedef struct s_kason_schema_field {
 	size_t capacity;      /**< Scalar count (1) or fixed array capacity. */
 } kason_schema_field;
 
-/** Initialized lookup and layout description for one C structure. */
+/** Initialized lookup and layout description for one C structure.
+ * @ingroup kason_schema_definition
+ */
 typedef struct s_kason_schema {
 	const kason_schema_field* fields; /**< Field descriptor array. */
 	int field_count;                 /**< Number of descriptors. */
@@ -179,7 +223,9 @@ typedef struct s_kason_schema {
 	int initialized;                 /**< Nonzero after successful initialization. */
 } kason_schema;
 
-/** Detailed schema failure location. */
+/** Detailed schema failure location.
+ * @ingroup kason_schema_results
+ */
 typedef struct s_kason_schema_error {
 	int code;                       /**< KaSON_SCHEMA_ERROR_* value. */
 	const kason_schema_field* field; /**< Related field, or NULL. */
@@ -187,8 +233,8 @@ typedef struct s_kason_schema_error {
 	int depth;                      /**< Nested-schema depth at failure. */
 } kason_schema_error;
 
-/* Return zero after consuming a writer chunk; any other value stops packing. */
 /** Receives one encoded JSON chunk.
+ * @ingroup kason_writers
  * @param data Output bytes; valid only during the callback.
  * @param length Number of bytes in @p data.
  * @param user_data Opaque application pointer.
@@ -201,7 +247,9 @@ typedef int (*kason_writer_callback)(const char* data, size_t length,
 #define KaSON_WRITER_MODE_CALLBACK ( 2 )
 #define KaSON_WRITER_MODE_COUNTER  ( 3 )
 
-/** Caller-owned JSON writer state. Initialize it with a writer initializer. */
+/** Caller-owned JSON writer state. Initialize it with a writer initializer.
+ * @ingroup kason_writers
+ */
 typedef struct s_kason_writer {
 	int mode;                     /**< One of KaSON_WRITER_MODE_*. */
 	char* buffer;                 /**< Fixed output buffer in buffer mode. */
@@ -360,12 +408,14 @@ typedef struct s_kason_writer {
  * STRING_U16, and STRING_U32 members are zero-terminated char, uint16_t, and
  * uint32_t arrays; their capacities are derived in the corresponding code
  * units. Array count members must have type size_t.
+ * @ingroup kason_schema_unpack
  * @param schema Schema and backing lookup storage to initialize.
  * @return KaSON_SCHEMA_SUCCESS or KaSON_SCHEMA_ERROR_INVALID_SCHEMA.
  */
 int kason_schema_init(kason_schema* schema);
 
 /** Unpack one NUL-terminated JSON object.
+ * @ingroup kason_schema_unpack
  * @param json Input object; slices are used only during this call.
  * @param schema Initialized destination schema.
  * @param output Destination structure. It is initialized from defaults before parsing.
@@ -375,6 +425,7 @@ int kason_schema_init(kason_schema* schema);
 int kason_unpack(char* json, const kason_schema* schema, void* output,
 		kason_schema_error* error);
 /** Unpack one JSON object from an inclusive range.
+ * @ingroup kason_schema_unpack
  * @param begin Opening `{` byte. @param end Closing `}` byte, inclusive.
  * @param schema Initialized destination schema. @param output Destination structure.
  * @param error Optional detailed error destination; may be NULL.
@@ -386,6 +437,7 @@ int kason_unpack_range(char* begin, char* end, const kason_schema* schema,
 /**
  * Flagged variants. KaSON_UNPACK_RELAXED returns after every schema field has
  * been decoded, so trailing syntax and duplicate fields are not validated.
+ * @ingroup kason_schema_unpack
  * @param json NUL-terminated JSON object.
  * @param schema Initialized destination schema.
  * @param output Destination structure.
@@ -396,6 +448,7 @@ int kason_unpack_range(char* begin, char* end, const kason_schema* schema,
 int kason_unpack_flags(char* json, const kason_schema* schema, void* output,
 		unsigned flags, kason_schema_error* error);
 /** Inclusive-range form of kason_unpack_flags().
+ * @ingroup kason_schema_unpack
  * @param begin Opening `{` byte. @param end Closing `}` byte, inclusive.
  * @param schema Initialized destination schema. @param output Destination structure.
  * @param flags Bitwise combination of KaSON_UNPACK_* flags.
@@ -406,12 +459,14 @@ int kason_unpack_range_flags(char* begin, char* end, const kason_schema* schema,
 		void* output, unsigned flags, kason_schema_error* error);
 
 /** Initialize a writer targeting a fixed buffer.
+ * @ingroup kason_writers
  * @param writer State to initialize. @param buffer Output buffer.
  * @param capacity Buffer bytes, including space for the trailing NUL.
  * @return KaSON_SCHEMA_SUCCESS or KaSON_SCHEMA_ERROR_INVALID_SCHEMA.
  */
 int kason_writer_init_buffer(kason_writer* writer, char* buffer, size_t capacity);
 /** Initialize a writer targeting an output callback.
+ * @ingroup kason_writers
  * @param writer State to initialize.
  * @param scratch Optional staging storage; NULL only when capacity is zero.
  * @param scratch_capacity Staging capacity in bytes.
@@ -423,15 +478,18 @@ int kason_writer_init_callback(kason_writer* writer,
 		char* scratch, size_t scratch_capacity,
 		kason_writer_callback callback, void* user_data);
 /** Initialize a writer that only counts encoded bytes.
+ * @ingroup kason_writers
  * @param writer State to initialize.
  * @return KaSON_SCHEMA_SUCCESS or KaSON_SCHEMA_ERROR_INVALID_SCHEMA.
  */
 int kason_writer_init_counter(kason_writer* writer);
 /** Reset length and status while retaining writer configuration.
+ * @ingroup kason_writers
  * @param writer Previously initialized writer.
  */
 void kason_writer_reset(kason_writer* writer);
 /** Obtain encoded length accumulated by a writer.
+ * @ingroup kason_writers
  * @param writer Initialized writer.
  * @return Encoded byte count excluding the buffer-mode NUL terminator.
  */
@@ -440,6 +498,7 @@ size_t kason_writer_length(const kason_writer* writer);
 /**
  * Pack one JSON object in schema order. Buffer capacity includes the trailing
  * NUL byte; writer length excludes it. Callback output can be partial on error.
+ * @ingroup kason_writers
  * @param writer Initialized output writer.
  * @param schema Initialized schema describing @p object.
  * @param object Source C structure.
