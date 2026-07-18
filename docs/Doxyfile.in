@@ -1,0 +1,53 @@
+PROJECT_NAME           = "KaSON"
+PROJECT_NUMBER         = "@PROJECT_VERSION@"
+PROJECT_BRIEF          = "Allocation-free JSON processing for C"
+
+OUTPUT_DIRECTORY       = "@KaSON_DOXYGEN_OUTPUT_DIRECTORY@"
+CREATE_SUBDIRS         = NO
+ALLOW_UNICODE_NAMES    = YES
+OUTPUT_LANGUAGE        = English
+
+INPUT                  = "@KaSON_DOXYGEN_README@" \
+                         "@CMAKE_CURRENT_SOURCE_DIR@/docs/api-guide.md" \
+                         "@CMAKE_CURRENT_SOURCE_DIR@/kason.h" \
+                         "@CMAKE_CURRENT_SOURCE_DIR@/kason_schema.h"
+FILE_PATTERNS          = *.h *.md
+RECURSIVE              = NO
+USE_MDFILE_AS_MAINPAGE = "@KaSON_DOXYGEN_README@"
+EXCLUDE_PATTERNS       = */build/* */build-*/*
+
+EXTRACT_ALL            = YES
+EXTRACT_STATIC         = NO
+HIDE_UNDOC_MEMBERS     = NO
+HIDE_UNDOC_CLASSES     = NO
+JAVADOC_AUTOBRIEF      = YES
+MARKDOWN_SUPPORT       = YES
+AUTOLINK_SUPPORT       = YES
+BUILTIN_STL_SUPPORT    = NO
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_DYNAMIC_MENUS     = YES
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
+SEARCHENGINE           = YES
+
+GENERATE_LATEX         = NO
+GENERATE_XML           = NO
+GENERATE_MAN           = NO
+
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES
+WARN_NO_PARAMDOC       = YES
+WARN_AS_ERROR          = FAIL_ON_WARNINGS
+WARN_LOGFILE           = "@CMAKE_CURRENT_BINARY_DIR@/doxygen-warnings.log"
+
+HAVE_DOT               = NO

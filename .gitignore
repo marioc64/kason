@@ -1,0 +1,5 @@
+build/
+.DS_Store
+# Clang static analyzer output generated in the source directory.
+/*.plist
+build-docs/
