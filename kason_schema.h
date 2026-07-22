@@ -50,77 +50,143 @@ extern "C" {
  * @{
  */
 
-/** @def KaSON_SCHEMA_MAX_FIELDS @brief Maximum number of fields in one schema. */
-/** @def KaSON_SCHEMA_SUCCESS @brief Schema operation succeeded. */
-/** @def KaSON_SCHEMA_ERROR @brief Generic schema error. */
-/** @def KaSON_SCHEMA_ERROR_INVALID_SCHEMA @brief Schema definition or argument is invalid. */
-/** @def KaSON_SCHEMA_ERROR_MISSING_FIELD @brief A required field was absent. */
-/** @def KaSON_SCHEMA_ERROR_DUPLICATE_FIELD @brief A JSON field occurred more than once. */
-/** @def KaSON_SCHEMA_ERROR_TYPE @brief JSON type does not match the field type. */
-/** @def KaSON_SCHEMA_ERROR_RANGE @brief Numeric value cannot fit the destination. */
-/** @def KaSON_SCHEMA_ERROR_STRING_CAPACITY @brief Decoded string exceeds its fixed array. */
-/** @def KaSON_SCHEMA_ERROR_ARRAY_CAPACITY @brief JSON array exceeds its fixed array. */
-/** @def KaSON_SCHEMA_ERROR_WRITER_CAPACITY @brief Writer buffer or scratch is insufficient. */
-/** @def KaSON_SCHEMA_ERROR_WRITER_CALLBACK @brief Output callback rejected a chunk. */
-/** @def KaSON_SCHEMA_ERROR_NESTING @brief Schema nesting limit was exceeded. */
-/** @def KaSON_SCHEMA_TYPE_BOOL @brief C boolean-like integer field. */
-/** @def KaSON_SCHEMA_TYPE_INT @brief C `int` field. */
-/** @def KaSON_SCHEMA_TYPE_INT64 @brief C `int64_t` field. */
-/** @def KaSON_SCHEMA_TYPE_U32 @brief C `uint32_t` field. */
-/** @def KaSON_SCHEMA_TYPE_U64 @brief C `uint64_t` field. */
-/** @def KaSON_SCHEMA_TYPE_DOUBLE @brief C `double` field. */
-/** @def KaSON_SCHEMA_TYPE_STRING @brief NUL-terminated UTF-8 `char` array. */
-/** @def KaSON_SCHEMA_TYPE_STRUCT @brief Nested structure field. */
-/** @def KaSON_SCHEMA_TYPE_STRING_U16 @brief Zero-terminated UTF-16 array. */
-/** @def KaSON_SCHEMA_TYPE_STRING_U32 @brief Zero-terminated UTF-32 array. */
-/** @def KaSON_SCHEMA_FIELD_ARRAY @brief Marks a fixed-capacity array field. */
-/** @def KaSON_SCHEMA_POLICY_REQUIRED @brief Field must occur in the input. */
-/** @def KaSON_SCHEMA_POLICY_DEFAULT @brief Apply a default when the field is absent. */
-/** @def KaSON_PACK_OMIT_DEFAULTS @brief Do not encode fields equal to their defaults. */
-/** @def KaSON_UNPACK_RELAXED @brief Stop after every schema field has been decoded. */
-/** @def KaSON_SCHEMA_NO_OFFSET @brief Sentinel for an unused structure offset. */
-/** @def KaSON_SCHEMA_NO_FIELD @brief Sentinel for an absent field index. */
-/** @def KaSON_WRITER_MODE_BUFFER @brief Writer targets a fixed buffer. */
-/** @def KaSON_WRITER_MODE_CALLBACK @brief Writer targets an output callback. */
-/** @def KaSON_WRITER_MODE_COUNTER @brief Writer only counts encoded bytes. */
+/** @def KaSON_SCHEMA_MAX_FIELDS
+ * @brief Maximum number of fields in one schema. */
+/** @def KaSON_SCHEMA_SUCCESS
+ * @brief Schema operation succeeded. */
+/** @def KaSON_SCHEMA_ERROR
+ * @brief Generic schema error. */
+/** @def KaSON_SCHEMA_ERROR_INVALID_SCHEMA
+ * @brief Schema definition or argument is invalid. */
+/** @def KaSON_SCHEMA_ERROR_MISSING_FIELD
+ * @brief A required field was absent. */
+/** @def KaSON_SCHEMA_ERROR_DUPLICATE_FIELD
+ * @brief A JSON field occurred more than once. */
+/** @def KaSON_SCHEMA_ERROR_TYPE
+ * @brief JSON type does not match the field type. */
+/** @def KaSON_SCHEMA_ERROR_RANGE
+ * @brief Numeric value cannot fit the destination. */
+/** @def KaSON_SCHEMA_ERROR_STRING_CAPACITY
+ * @brief Decoded string exceeds its fixed array. */
+/** @def KaSON_SCHEMA_ERROR_ARRAY_CAPACITY
+ * @brief JSON array exceeds its fixed array. */
+/** @def KaSON_SCHEMA_ERROR_WRITER_CAPACITY
+ * @brief Writer buffer or scratch is insufficient. */
+/** @def KaSON_SCHEMA_ERROR_WRITER_CALLBACK
+ * @brief Output callback rejected a chunk. */
+/** @def KaSON_SCHEMA_ERROR_NESTING
+ * @brief Schema nesting limit was exceeded. */
+/** @def KaSON_SCHEMA_TYPE_BOOL
+ * @brief C boolean-like integer field. */
+/** @def KaSON_SCHEMA_TYPE_INT
+ * @brief C `int` field. */
+/** @def KaSON_SCHEMA_TYPE_INT64
+ * @brief C `int64_t` field. */
+/** @def KaSON_SCHEMA_TYPE_U32
+ * @brief C `uint32_t` field. */
+/** @def KaSON_SCHEMA_TYPE_U64
+ * @brief C `uint64_t` field. */
+/** @def KaSON_SCHEMA_TYPE_DOUBLE
+ * @brief C `double` field. */
+/** @def KaSON_SCHEMA_TYPE_STRING
+ * @brief NUL-terminated UTF-8 `char` array. */
+/** @def KaSON_SCHEMA_TYPE_STRUCT
+ * @brief Nested structure field. */
+/** @def KaSON_SCHEMA_TYPE_STRING_U16
+ * @brief Zero-terminated UTF-16 array. */
+/** @def KaSON_SCHEMA_TYPE_STRING_U32
+ * @brief Zero-terminated UTF-32 array. */
+/** @def KaSON_SCHEMA_FIELD_ARRAY
+ * @brief Marks a fixed-capacity array field. */
+/** @def KaSON_SCHEMA_POLICY_REQUIRED
+ * @brief Field must occur in the input. */
+/** @def KaSON_SCHEMA_POLICY_DEFAULT
+ * @brief Apply a default when the field is absent. */
+/** @def KaSON_PACK_OMIT_DEFAULTS
+ * @brief Do not encode fields equal to their defaults. */
+/** @def KaSON_UNPACK_RELAXED
+ * @brief Stop after every schema field has been decoded. */
+/** @def KaSON_SCHEMA_NO_OFFSET
+ * @brief Sentinel for an unused structure offset. */
+/** @def KaSON_SCHEMA_NO_FIELD
+ * @brief Sentinel for an absent field index. */
+/** @def KaSON_WRITER_MODE_BUFFER
+ * @brief Writer targets a fixed buffer. */
+/** @def KaSON_WRITER_MODE_CALLBACK
+ * @brief Writer targets an output callback. */
+/** @def KaSON_WRITER_MODE_COUNTER
+ * @brief Writer only counts encoded bytes. */
 /** @} */
 
 /** @addtogroup kason_schema_definition
  * @{
  */
-/** @def KaSON_REQUIRED @brief Policy requiring a field. */
-/** @def KaSON_DEFAULT_BOOL @brief Boolean default policy. */
-/** @def KaSON_DEFAULT_INT @brief `int` default policy. */
-/** @def KaSON_DEFAULT_INT64 @brief `int64_t` default policy. */
-/** @def KaSON_DEFAULT_U32 @brief `uint32_t` default policy. */
-/** @def KaSON_DEFAULT_U64 @brief `uint64_t` default policy. */
-/** @def KaSON_DEFAULT_DOUBLE @brief `double` default policy. */
-/** @def KaSON_DEFAULT_STRING @brief UTF-8 default retained by reference; argument must be an array or literal. */
-/** @def KaSON_DEFAULT_STRING_U16 @brief UTF-16 default retained by reference; argument must be an array. */
-/** @def KaSON_DEFAULT_STRING_U32 @brief UTF-32 default retained by reference; argument must be an array. */
-/** @def KaSON_DEFAULT_STRUCT @brief Nested-structure default retained by reference. */
-/** @def KaSON_DEFAULT_EMPTY_ARRAY @brief Empty-array default policy. */
-/** @def KaSON_FIELD_BOOL @brief Declare a scalar boolean field. */
-/** @def KaSON_FIELD_INT @brief Declare a scalar `int` field. */
-/** @def KaSON_FIELD_INT64 @brief Declare a scalar `int64_t` field. */
-/** @def KaSON_FIELD_U32 @brief Declare a scalar `uint32_t` field. */
-/** @def KaSON_FIELD_U64 @brief Declare a scalar `uint64_t` field. */
-/** @def KaSON_FIELD_DOUBLE @brief Declare a scalar `double` field. */
-/** @def KaSON_FIELD_STRING @brief Declare a fixed UTF-8 string field. */
-/** @def KaSON_FIELD_STRING_U16 @brief Declare a fixed UTF-16 string field. */
-/** @def KaSON_FIELD_STRING_U32 @brief Declare a fixed UTF-32 string field. */
-/** @def KaSON_FIELD_STRUCT @brief Declare a nested-structure field. */
-/** @def KaSON_FIELD_BOOL_ARRAY @brief Declare a fixed boolean array with a `size_t` count member. */
-/** @def KaSON_FIELD_INT_ARRAY @brief Declare a fixed `int` array with a `size_t` count member. */
-/** @def KaSON_FIELD_INT64_ARRAY @brief Declare a fixed `int64_t` array with a `size_t` count member. */
-/** @def KaSON_FIELD_U32_ARRAY @brief Declare a fixed `uint32_t` array with a `size_t` count member. */
-/** @def KaSON_FIELD_U64_ARRAY @brief Declare a fixed `uint64_t` array with a `size_t` count member. */
-/** @def KaSON_FIELD_DOUBLE_ARRAY @brief Declare a fixed `double` array with a `size_t` count member. */
-/** @def KaSON_FIELD_STRING_ARRAY @brief Declare fixed UTF-8 string arrays with a `size_t` count member. */
-/** @def KaSON_FIELD_STRING_U16_ARRAY @brief Declare fixed UTF-16 string arrays with a `size_t` count member. */
-/** @def KaSON_FIELD_STRING_U32_ARRAY @brief Declare fixed UTF-32 string arrays with a `size_t` count member. */
-/** @def KaSON_FIELD_STRUCT_ARRAY @brief Declare fixed nested-structure arrays with a `size_t` count member. */
-/** @def KaSON_SCHEMA_DEFINE @brief Define schema storage and a mutable kason_schema object. */
+/** @def KaSON_REQUIRED
+ * @brief Policy requiring a field. */
+/** @def KaSON_DEFAULT_BOOL
+ * @brief Boolean default policy. */
+/** @def KaSON_DEFAULT_INT
+ * @brief `int` default policy. */
+/** @def KaSON_DEFAULT_INT64
+ * @brief `int64_t` default policy. */
+/** @def KaSON_DEFAULT_U32
+ * @brief `uint32_t` default policy. */
+/** @def KaSON_DEFAULT_U64
+ * @brief `uint64_t` default policy. */
+/** @def KaSON_DEFAULT_DOUBLE
+ * @brief `double` default policy. */
+/** @def KaSON_DEFAULT_STRING
+ * @brief UTF-8 default retained by reference; argument must be an array or literal. */
+/** @def KaSON_DEFAULT_STRING_U16
+ * @brief UTF-16 default retained by reference; argument must be an array. */
+/** @def KaSON_DEFAULT_STRING_U32
+ * @brief UTF-32 default retained by reference; argument must be an array. */
+/** @def KaSON_DEFAULT_STRUCT
+ * @brief Nested-structure default retained by reference. */
+/** @def KaSON_DEFAULT_EMPTY_ARRAY
+ * @brief Empty-array default policy. */
+/** @def KaSON_FIELD_BOOL
+ * @brief Declare a scalar boolean field. */
+/** @def KaSON_FIELD_INT
+ * @brief Declare a scalar `int` field. */
+/** @def KaSON_FIELD_INT64
+ * @brief Declare a scalar `int64_t` field. */
+/** @def KaSON_FIELD_U32
+ * @brief Declare a scalar `uint32_t` field. */
+/** @def KaSON_FIELD_U64
+ * @brief Declare a scalar `uint64_t` field. */
+/** @def KaSON_FIELD_DOUBLE
+ * @brief Declare a scalar `double` field. */
+/** @def KaSON_FIELD_STRING
+ * @brief Declare a fixed UTF-8 string field. */
+/** @def KaSON_FIELD_STRING_U16
+ * @brief Declare a fixed UTF-16 string field. */
+/** @def KaSON_FIELD_STRING_U32
+ * @brief Declare a fixed UTF-32 string field. */
+/** @def KaSON_FIELD_STRUCT
+ * @brief Declare a nested-structure field. */
+/** @def KaSON_FIELD_BOOL_ARRAY
+ * @brief Declare a fixed boolean array with a `size_t` count member. */
+/** @def KaSON_FIELD_INT_ARRAY
+ * @brief Declare a fixed `int` array with a `size_t` count member. */
+/** @def KaSON_FIELD_INT64_ARRAY
+ * @brief Declare a fixed `int64_t` array with a `size_t` count member. */
+/** @def KaSON_FIELD_U32_ARRAY
+ * @brief Declare a fixed `uint32_t` array with a `size_t` count member. */
+/** @def KaSON_FIELD_U64_ARRAY
+ * @brief Declare a fixed `uint64_t` array with a `size_t` count member. */
+/** @def KaSON_FIELD_DOUBLE_ARRAY
+ * @brief Declare a fixed `double` array with a `size_t` count member. */
+/** @def KaSON_FIELD_STRING_ARRAY
+ * @brief Declare fixed UTF-8 string arrays with a `size_t` count member. */
+/** @def KaSON_FIELD_STRING_U16_ARRAY
+ * @brief Declare fixed UTF-16 string arrays with a `size_t` count member. */
+/** @def KaSON_FIELD_STRING_U32_ARRAY
+ * @brief Declare fixed UTF-32 string arrays with a `size_t` count member. */
+/** @def KaSON_FIELD_STRUCT_ARRAY
+ * @brief Declare fixed nested-structure arrays with a `size_t` count member. */
+/** @def KaSON_SCHEMA_DEFINE
+ * @brief Define schema storage and a mutable kason_schema object. */
 /** @} */
 
 /** @internal Implementation macro used by public policy macros. */

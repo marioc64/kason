@@ -37,37 +37,68 @@ extern "C" {
  * @{
  */
 
-/** @def KaSON_PARSE_RESULT_MAJOR_MASK @brief Mask for a result's error class. */
-/** @def KaSON_PARSE_RESULT_MINOR_MASK @brief Mask for result detail bits. */
-/** @def KaSON_PARSE_RESULT_SUCCESS @brief Parsing completed successfully. */
-/** @def KaSON_PARSE_RESULT_INCOMPLETE @brief Input ended before the document completed. */
-/** @def KaSON_PARSE_RESULT_ERROR @brief Generic JSON syntax-error class. */
-/** @def KaSON_PARSE_RESULT_ERROR_NULL_CALLBACK @brief A required callback was NULL. */
-/** @def KaSON_PARSE_RESULT_ERROR_BUFFER_FULL @brief Caller-owned scratch was insufficient. */
-/** @def KaSON_CALLBACK_CONTINUE @brief Continue after a value or end event. */
-/** @def KaSON_CALLBACK_BREAK @brief Stop successfully after a value or end event. */
-/** @def KaSON_ACTION_ENTER @brief Visit a container's children and receive its end event. */
-/** @def KaSON_ACTION_BREAK @brief Stop successfully at a container-begin event. */
-/** @def KaSON_ACTION_CAPTURE @brief Validate silently and report the complete container at its end. */
-/** @def KaSON_ACTION_SKIP @brief Validate a container without child or end callbacks. */
-/** @def KaSON_STRING_RESULT_ERROR @brief A string slice was malformed. */
-/** @def KaSON_CONVERT_SUCCESS @brief Value conversion succeeded. */
-/** @def KaSON_CONVERT_ERROR @brief The value slice was malformed. */
-/** @def KaSON_CONVERT_RANGE @brief The value is outside the destination range. */
-/** @def KaSON_CONVERT_TYPE_ERROR @brief The supplied KaSON_TYPE_* cannot be converted. */
-/** @def KaSON_MAX_NESTING @brief Maximum accepted object/array nesting; defaults to 128. */
-/** @def KaSON_TYPE_UNKNOWN @brief Unknown or unavailable JSON type. */
-/** @def KaSON_TYPE_NULL @brief JSON `null`. */
-/** @def KaSON_TYPE_TRUE @brief JSON `true`. */
-/** @def KaSON_TYPE_FALSE @brief JSON `false`. */
-/** @def KaSON_TYPE_STRING @brief JSON string; the slice excludes quotes and retains escapes. */
-/** @def KaSON_TYPE_NUMBER @brief JSON number. */
-/** @def KaSON_TYPE_ARRAY @brief JSON array. */
-/** @def KaSON_TYPE_OBJECT @brief JSON object. */
-/** @def KaSON_STREAM_EVENT_VALUE @brief Complete primitive-value event. */
-/** @def KaSON_STREAM_EVENT_CONTAINER_BEGIN @brief Object/array opening event. */
-/** @def KaSON_STREAM_EVENT_CONTAINER_PART @brief Middle fragment from the chunked parser. */
-/** @def KaSON_STREAM_EVENT_CONTAINER_END @brief Container end or final stream fragment. */
+/** @def KaSON_PARSE_RESULT_MAJOR_MASK
+ * @brief Mask for a result's error class. */
+/** @def KaSON_PARSE_RESULT_MINOR_MASK
+ * @brief Mask for result detail bits. */
+/** @def KaSON_PARSE_RESULT_SUCCESS
+ * @brief Parsing completed successfully. */
+/** @def KaSON_PARSE_RESULT_INCOMPLETE
+ * @brief Input ended before the document completed. */
+/** @def KaSON_PARSE_RESULT_ERROR
+ * @brief Generic JSON syntax-error class. */
+/** @def KaSON_PARSE_RESULT_ERROR_NULL_CALLBACK
+ * @brief A required callback was NULL. */
+/** @def KaSON_PARSE_RESULT_ERROR_BUFFER_FULL
+ * @brief Caller-owned scratch was insufficient. */
+/** @def KaSON_CALLBACK_CONTINUE
+ * @brief Continue after a value or end event. */
+/** @def KaSON_CALLBACK_BREAK
+ * @brief Stop successfully after a value or end event. */
+/** @def KaSON_ACTION_ENTER
+ * @brief Visit a container's children and receive its end event. */
+/** @def KaSON_ACTION_BREAK
+ * @brief Stop successfully at a container-begin event. */
+/** @def KaSON_ACTION_CAPTURE
+ * @brief Validate silently and report the complete container at its end. */
+/** @def KaSON_ACTION_SKIP
+ * @brief Validate a container without child or end callbacks. */
+/** @def KaSON_STRING_RESULT_ERROR
+ * @brief A string slice was malformed. */
+/** @def KaSON_CONVERT_SUCCESS
+ * @brief Value conversion succeeded. */
+/** @def KaSON_CONVERT_ERROR
+ * @brief The value slice was malformed. */
+/** @def KaSON_CONVERT_RANGE
+ * @brief The value is outside the destination range. */
+/** @def KaSON_CONVERT_TYPE_ERROR
+ * @brief The supplied KaSON_TYPE_* cannot be converted. */
+/** @def KaSON_MAX_NESTING
+ * @brief Maximum accepted object/array nesting; defaults to 128. */
+/** @def KaSON_TYPE_UNKNOWN
+ * @brief Unknown or unavailable JSON type. */
+/** @def KaSON_TYPE_NULL
+ * @brief JSON `null`. */
+/** @def KaSON_TYPE_TRUE
+ * @brief JSON `true`. */
+/** @def KaSON_TYPE_FALSE
+ * @brief JSON `false`. */
+/** @def KaSON_TYPE_STRING
+ * @brief JSON string; the slice excludes quotes and retains escapes. */
+/** @def KaSON_TYPE_NUMBER
+ * @brief JSON number. */
+/** @def KaSON_TYPE_ARRAY
+ * @brief JSON array. */
+/** @def KaSON_TYPE_OBJECT
+ * @brief JSON object. */
+/** @def KaSON_STREAM_EVENT_VALUE
+ * @brief Complete primitive-value event. */
+/** @def KaSON_STREAM_EVENT_CONTAINER_BEGIN
+ * @brief Object/array opening event. */
+/** @def KaSON_STREAM_EVENT_CONTAINER_PART
+ * @brief Middle fragment from the chunked parser. */
+/** @def KaSON_STREAM_EVENT_CONTAINER_END
+ * @brief Container end or final stream fragment. */
 /** @} */
 
 #define KaSON_PARSE_RESULT_MAJOR_MASK		  ( 0xff00 )
